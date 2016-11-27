@@ -13,7 +13,7 @@ Public Class FrmMain
 
     Private Sub FrmMain_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 
-        ' vytvoríme stream z eventu Klin na tlačidlo, bude to stream časových pečiatok času kliku
+        ' vytvoríme stream z eventu Klik na tlačidlo, bude to stream časových pečiatok času kliku
         Dim delayedClickStream = Observable.FromEventPattern(Of EventArgs)(Me.BtnClick, "Click").
             Select(Of DateTime)(Function(args) DateTime.Now).  ' do streamu posielam presný čas kliku
             Delay(TimeSpan.FromSeconds(2)).                    ' v rámci streamu je event oneskorený o 2 sekundy
