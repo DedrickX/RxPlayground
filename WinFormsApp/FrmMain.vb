@@ -7,14 +7,29 @@ Public Class FrmMain
 
     Private _delayedClickSubscription As IDisposable
     Private _randomClickErrorSubscription As IDisposable
+    Private _textInputSubscription As IDisposable
 
 
-    Private Sub FrmMain_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+#Region "Inicializácia"
 
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
         DelayedClickInit()
         RandomClickErrorInit()
+        TextWritingInit()
 
     End Sub
+
+
+#End Region
+
+
+#Region "Oneskorený klik"
 
 
     Private Sub DelayedClickInit()
@@ -26,9 +41,15 @@ Public Class FrmMain
             ObserveOn(Me)                                      ' oznámenia sú posielané v event-loope prezentačnej vrstvy - teda tam kde bol vytvorený tento form
 
         _delayedClickSubscription = delayedClickStream.
-            Subscribe(Sub(x) WriteLine($"Button Click at {x.ToString("HH:mm:ss.FFF")}", Color.Blue.ToArgb()))
+            Subscribe(Sub(x) OutputText($"Button Click at {x.ToString("HH:mm:ss.FFF")}", Color.Blue))
 
     End Sub
+
+
+#End Region
+
+
+#Region "Náhodný exception"
 
 
     Private Sub RandomClickErrorInit()
@@ -42,11 +63,37 @@ Public Class FrmMain
                End Sub)
 
         _randomClickErrorSubscription = randomClickErrorStream.
-            Subscribe(onNext:=Sub(x) WriteLine($"Click - No Error"),
-                      onCompleted:=Sub() WriteLine("Completed"),
-                      onError:=Sub(ex) WriteLine($"Click - Exception {ex.Message}", Color.Red.ToArgb()))
+            Subscribe(onNext:=Sub(x) OutputText($"Click - No Error", Color.Black),
+                      onCompleted:=Sub() OutputText("Completed", Color.DarkGreen),
+                      onError:=Sub(ex) OutputText($"Click - Exception {ex.Message}", Color.Red))
 
     End Sub
+
+
+#End Region
+
+
+#Region "Písanie textu"
+
+
+    Private Sub TextWritingInit()
+
+        Dim textInputStream = Observable.FromEventPattern(Of EventArgs)(Me.TxtInput, "TextChanged").
+            Select(Of String)(Function(x) DirectCast(x.Sender, TextBox).Text).
+            Throttle(TimeSpan.FromSeconds(1)).
+            ObserveOn(Me)
+
+        _textInputSubscription = textInputStream.
+            Subscribe(onNext:=Sub(x) OutputText($"Zadaný text: {x}", Color.DarkBlue))
+
+    End Sub
+
+
+
+#End Region
+
+
+#Region "Unsubscribe"
 
 
     Private Sub BtnUsnubscribe_Click(sender As Object, e As EventArgs) Handles BtnUsnubscribe.Click
@@ -58,14 +105,23 @@ Public Class FrmMain
     End Sub
 
 
+#End Region
+
+
+#Region "Ostatné"
+
+
     ''' <summary>
     ''' Zapísanie textu do jedného riadku
     ''' </summary>
     ''' <param name="text"></param>
-    Private Sub WriteLine(text As String, Optional color As Integer = 0)
-        TxtOutput.SelectionColor = System.Drawing.Color.FromArgb(color)
+    Private Sub OutputText(text As String, color As Color)
+        TxtOutput.SelectionColor = color
         TxtOutput.AppendText(text & System.Environment.NewLine)
     End Sub
+
+
+#End Region
 
 
 End Class
