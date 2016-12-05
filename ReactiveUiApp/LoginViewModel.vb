@@ -44,11 +44,17 @@ Public Class LoginViewModel
 
     Public Sub New()
 
-        Dim canLogin = Me.WhenAnyValue(Function(x) x._userName,
-                                       Function(x) x._password,
-                                       Function(userName, password) Not String.IsNullOrEmpty(userName) AndAlso Not String.IsNullOrEmpty(password))
+        ' WhenAnyValue sleduje zmeny ktorejkoľvek z hodnôt v jej parametroch. Zmeny sú reprezentované ako stream n-tíc
+        Dim textValues = Me.WhenAnyValue(Function(x) x.UserName, Function(x) x.Password)
+        textValues.Subscribe(Sub(x)
+                                 Debug.Print($"Zmena hodnoty - {x.Item1}, {x.Item2}")
+                             End Sub)
 
-        Me._loginCommand = ReactiveCommand.CreateFromObservable(AddressOf Me.LoginAsync, canLogin)
+        'Dim canLogin = Me.WhenAnyValue(Function(x) x.UserName,
+        '                               Function(x) x.Password,
+        '                               Function(userName, password) Not String.IsNullOrEmpty(userName) AndAlso Not String.IsNullOrEmpty(password))
+        'Me._loginCommand = ReactiveCommand.CreateFromObservable(AddressOf Me.LoginAsync, canLogin)
+        Me._loginCommand = ReactiveCommand.CreateFromObservable(AddressOf Me.LoginAsync)
 
         Me._resetCommand = ReactiveCommand.Create(Sub()
                                                       Me._userName = Nothing

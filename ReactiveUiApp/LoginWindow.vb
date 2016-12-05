@@ -7,26 +7,10 @@ Public Class LoginWindow
     Implements IViewFor(Of LoginViewModel)
 
 
-    Public Sub New()
+#Region "IViewFor"
 
-        ' This call is required by the designer.
-        InitializeComponent()
+    Public Property ViewModel As LoginViewModel = New LoginViewModel() Implements IViewFor(Of LoginViewModel).ViewModel
 
-    End Sub
-
-    Public Property ViewModel As LoginViewModel Implements IViewFor(Of LoginViewModel).ViewModel
-        Get
-            ' Add any initialization after the InitializeComponent() call.
-            If _ViewModel Is Nothing Then
-                _ViewModel = New LoginViewModel()
-            End If
-            Return _ViewModel
-        End Get
-        Set(value As LoginViewModel)
-            _ViewModel = value
-        End Set
-    End Property
-    Private _ViewModel As LoginViewModel
 
     Private Property IViewFor_ViewModel As Object Implements IViewFor.ViewModel
         Get
@@ -37,10 +21,28 @@ Public Class LoginWindow
         End Set
     End Property
 
+#End Region
+
+
     Private Sub LoginWindow_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        TxtUserName.DataBindings.Add("Text", Me.ViewModel, "UserName")
-        TxtPassword.DataBindings.Add("Text", Me.ViewModel, "Password")
+        Me.Bind(ViewModel,
+                Function(x As LoginViewModel) x.UserName,
+                Function(x) x.TxtUserName.Text)
+
+        Me.Bind(ViewModel,
+                Function(x As LoginViewModel) x.Password,
+                Function(x) x.TxtPassword.Text)
+
+        'ReactiveUI.CommandBinder.BindCommand(Me,
+        '    ViewModel,
+        '    Function(x As LoginViewModel) x.LoginCommand,
+        '    Function(x) x.BtnLogin)
+
+        'ReactiveUI.CommandBinder.BindCommand(Me,
+        '    ViewModel,
+        '    Function(x As LoginViewModel) x.ResetCommand,
+        '    Function(x) x.BtnReset)
 
     End Sub
 
