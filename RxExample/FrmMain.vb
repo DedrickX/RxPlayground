@@ -54,6 +54,7 @@ Public Class FrmMain
 
     Private Sub RandomClickErrorInit()
 
+        ' vytvorím stream z kliku na tlačidlo, pričom 1 z piatich klikov vyvolá exception
         Dim randomClickErrorStream = Observable.FromEventPattern(Of EventArgs)(Me.BtnRandomExceptions, "Click").
             Do(Sub(x)
                    Dim rng = New Random()
@@ -62,6 +63,7 @@ Public Class FrmMain
                    End If
                End Sub)
 
+        ' tu je vidieť, že exception v rámci streamu je zachytený vo funkcii onError Subscribera
         _randomClickErrorSubscription = randomClickErrorStream.
             Subscribe(onNext:=Sub(x) OutputText($"Click - No Error", Color.Black),
                       onCompleted:=Sub() OutputText("Completed", Color.DarkGreen),
@@ -78,11 +80,14 @@ Public Class FrmMain
 
     Private Sub TextWritingInit()
 
+        ' vytvorím stream z eventu TextChanged textboxu, prevediem doň obsah textboxu
+        ' stream pozdržím tak, aby produkoval hodnotu až po sekundovej odmlke TextChanged
         Dim textInputStream = Observable.FromEventPattern(Of EventArgs)(Me.TxtInput, "TextChanged").
             Select(Of String)(Function(x) DirectCast(x.Sender, TextBox).Text).
             Throttle(TimeSpan.FromSeconds(1)).
             ObserveOn(Me)
 
+        ' môžeme vypisovať výsledky tohto streamu
         _textInputSubscription = textInputStream.
             Subscribe(onNext:=Sub(x) OutputText($"Zadaný text: {x}", Color.DarkBlue))
 

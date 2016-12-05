@@ -135,7 +135,7 @@ Partial Class FrmMain
         Me.Controls.Add(Me.TxtOutput)
         Me.Controls.Add(Me.BtnUsnubscribe)
         Me.Name = "FrmMain"
-        Me.Text = "Rx Playground"
+        Me.Text = "Reactive Extensions Example"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
