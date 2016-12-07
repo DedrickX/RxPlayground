@@ -13,16 +13,16 @@ namespace ReactiveUiExample
 {
     public partial class MainView : Form, IViewFor<MainViewModel>
     {
-               
-
+        
         #region Ctor
 
         public MainView()
         {
             InitializeComponent();
-                    
+                                                        
             ViewModel = new MainViewModel();
         }
+                
 
         #endregion
 

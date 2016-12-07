@@ -32,7 +32,6 @@
             this.TxtPriezvisko = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.TxtCeleMeno = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TxtMeno
@@ -67,20 +66,11 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Priezvisko";
             // 
-            // TxtCeleMeno
-            // 
-            this.TxtCeleMeno.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.TxtCeleMeno.Location = new System.Drawing.Point(12, 58);
-            this.TxtCeleMeno.Name = "TxtCeleMeno";
-            this.TxtCeleMeno.Size = new System.Drawing.Size(184, 20);
-            this.TxtCeleMeno.TabIndex = 4;
-            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 482);
-            this.Controls.Add(this.TxtCeleMeno);
+            this.ClientSize = new System.Drawing.Size(247, 100);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtPriezvisko);
@@ -98,7 +88,6 @@
         private System.Windows.Forms.TextBox TxtPriezvisko;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TxtCeleMeno;
     }
 }
 
