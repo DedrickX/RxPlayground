@@ -13,45 +13,26 @@ namespace ReactiveUiExample
 {
     public partial class MainView : Form, IViewFor<MainViewModel>
     {
-        
-        #region Ctor
 
         public MainView()
         {
             InitializeComponent();
-                                                        
-            ViewModel = new MainViewModel();
+
+            this.WhenActivated(d =>
+            {
+                d(this.Bind(ViewModel, x => x.Meno, x => x.TxtMeno.Text));
+                d(this.Bind(ViewModel, x => x.Priezvisko, x => x.TxtPriezvisko.Text));
+                d(this.Bind(ViewModel, x => x.CeleMeno, x => x.LblCeleMeno.Text));                
+            });
+
         }
-                
 
-        #endregion
-
-
-        #region ViewModel
-
-        public MainViewModel ViewModel { get; set; } 
-
+        public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
             set { ViewModel = value as MainViewModel; }
-        }
-
-        #endregion
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-            this.Bind(ViewModel, 
-                      x => x.Meno, 
-                      x => x.TxtMeno.Text);
-
-            this.Bind(ViewModel,
-                      x => x.Priezvisko,
-                      x => x.TxtPriezvisko.Text);
-
         }
 
     }

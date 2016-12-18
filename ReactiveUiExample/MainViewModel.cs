@@ -11,15 +11,27 @@ using System.Threading.Tasks;
 namespace ReactiveUiExample
 {
     public class MainViewModel : ReactiveObject
-    {                        
-                
+    {  
+
+        #region Ctor a inicializácia
+        
+        public MainViewModel()
+        {
+            this.WhenAnyValue(x => x.Meno, x => x.Priezvisko)
+               .Select(x => x.Item1 + " " + x.Item2)
+               .ToProperty(this, x => x.CeleMeno, out _CeleMeno);            
+        }
+
+        #endregion
+
+
         private string _Meno;
         public string Meno
         {
             get { return _Meno; }
             set { this.RaiseAndSetIfChanged(ref _Meno, value); }
         }
-        
+
 
         private string _Priezvisko;
         public string Priezvisko
@@ -28,29 +40,12 @@ namespace ReactiveUiExample
             set { this.RaiseAndSetIfChanged(ref _Priezvisko, value); }
         }
 
-                
+
         readonly ObservableAsPropertyHelper<string> _CeleMeno;
         public string CeleMeno
         {
             get { return _CeleMeno.Value; }
         }
-
-
-        #region Ctor
-        
-        public MainViewModel()
-        {            
-
-            var zmena = this.WhenAnyValue(x => x.Meno, x => x.Priezvisko);
-            zmena.Subscribe(x => Debug.Print($"Zmena hodnoty: Meno = {Meno}, Priezvisko = {Priezvisko}"));
-
-
-            this.WhenAnyValue(x => x.Meno, x => x.Priezvisko)
-               .Select(x => x.Item1 + " " + x.Item2)
-               .ToProperty(this, x => x.CeleMeno, out _CeleMeno);            
-        }
-
-        #endregion
 
     }
 }

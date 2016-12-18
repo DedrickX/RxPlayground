@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Windows.Forms;
+using ReactiveUI.Winforms;
 
 namespace ReactiveUiExample
 {
