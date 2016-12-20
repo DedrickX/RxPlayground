@@ -12,19 +12,20 @@ namespace ReactiveUiExample
 {
     public class MainViewModel : ReactiveObject
     {  
-
-        #region Ctor a inicializácia
-        
+                        
+        /// <summary>
+        /// Konštruktor ViewModelu
+        /// </summary>
         public MainViewModel()
         {
-            this.WhenAnyValue(x => x.Meno, x => x.Priezvisko)
-               .Select(x => x.Item1 + " " + x.Item2)
-               .ToProperty(this, x => x.CeleMeno, out _CeleMeno);            
+            this.WhenAnyValue(x => x.Meno, x => x.Priezvisko)     // akonáhle sa zmení niektorá z týchto hodnôt
+               .Select(x => x.Item1 + " " + x.Item2)              // reťazce spoj s medzerou medzi nimi
+               .ToProperty(this, x => x.CeleMeno, out _CeleMeno); // a výsledok daj do Observable _CeleMeno a verejnej property CeleMeno
         }
 
-        #endregion
 
-
+        #region Property ViewModelu
+        
         private string _Meno;
         public string Meno
         {
@@ -46,6 +47,9 @@ namespace ReactiveUiExample
         {
             get { return _CeleMeno.Value; }
         }
+
+
+        #endregion
 
     }
 }
