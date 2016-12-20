@@ -37,6 +37,30 @@ namespace ReactiveUiExample
                 registerDisposable(this.Bind(ViewModel, 
                                              x => x.CeleMeno, 
                                              x => x.LblCeleMeno.Text));
+
+                registerDisposable(this.Bind(ViewModel,
+                                             x => x.Number1,
+                                             x => x.TxtNumber1.Text,
+                                             x => x.ToString(),
+                                             x =>
+                                             {
+                                                 int i = 0;
+                                                 int.TryParse(x, out i);
+                                                 return i;
+                                             }));
+                registerDisposable(this.Bind(ViewModel,
+                                             x => x.Number2,
+                                             x => x.TxtNumber2.Text,
+                                             x => x.ToString(),
+                                             x =>
+                                             {
+                                                 int i = 0;
+                                                 int.TryParse(x, out i);
+                                                 return i;
+                                             }));
+                registerDisposable(this.Bind(ViewModel,
+                                             x => x.AdditionResult,
+                                             x => x.TxtResult.Text));
             });
 
         }
@@ -49,7 +73,7 @@ namespace ReactiveUiExample
         {
             get { return ViewModel; }
             set { ViewModel = value as MainViewModel; }
-        }
+        }                       
 
         #endregion
 
