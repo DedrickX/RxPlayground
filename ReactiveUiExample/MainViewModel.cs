@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace ReactiveUiExample
 {
+    /// <summary>
+    /// ViewModel pre hlavný formulár
+    /// </summary>
     public class MainViewModel : ReactiveObject
     {  
                         
@@ -29,23 +32,24 @@ namespace ReactiveUiExample
 
 
         #region Property ViewModelu
-        
-        private string _Meno;
+                
+
         public string Meno
         {
             get { return _Meno; }
             set { this.RaiseAndSetIfChanged(ref _Meno, value); }
         }
+        private string _Meno;
 
-
-        private string _Priezvisko;
+                
         public string Priezvisko
         {
             get { return _Priezvisko; }
             set { this.RaiseAndSetIfChanged(ref _Priezvisko, value); }
         }
+        private string _Priezvisko;
 
-        
+
         public string CeleMeno
         {
             get { return _CeleMeno.Value; }

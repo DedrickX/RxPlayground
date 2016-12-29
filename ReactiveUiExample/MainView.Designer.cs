@@ -38,7 +38,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.TxtResult = new System.Windows.Forms.TextBox();
+            this.TxtAdditionResult = new System.Windows.Forms.TextBox();
             this.TxtNumber2 = new System.Windows.Forms.TextBox();
             this.TxtNumber1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
@@ -49,15 +49,15 @@
             // 
             this.TxtMeno.Location = new System.Drawing.Point(6, 37);
             this.TxtMeno.Name = "TxtMeno";
-            this.TxtMeno.Size = new System.Drawing.Size(89, 20);
-            this.TxtMeno.TabIndex = 0;
+            this.TxtMeno.Size = new System.Drawing.Size(118, 20);
+            this.TxtMeno.TabIndex = 1;
             // 
             // TxtPriezvisko
             // 
-            this.TxtPriezvisko.Location = new System.Drawing.Point(101, 37);
+            this.TxtPriezvisko.Location = new System.Drawing.Point(143, 37);
             this.TxtPriezvisko.Name = "TxtPriezvisko";
-            this.TxtPriezvisko.Size = new System.Drawing.Size(89, 20);
-            this.TxtPriezvisko.TabIndex = 1;
+            this.TxtPriezvisko.Size = new System.Drawing.Size(123, 20);
+            this.TxtPriezvisko.TabIndex = 3;
             // 
             // label1
             // 
@@ -65,16 +65,16 @@
             this.label1.Location = new System.Drawing.Point(3, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Meno";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(101, 21);
+            this.label2.Location = new System.Drawing.Point(140, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Priezvisko";
             // 
             // LblCeleMeno
@@ -83,7 +83,7 @@
             this.LblCeleMeno.Location = new System.Drawing.Point(72, 66);
             this.LblCeleMeno.Name = "LblCeleMeno";
             this.LblCeleMeno.Size = new System.Drawing.Size(69, 13);
-            this.LblCeleMeno.TabIndex = 4;
+            this.LblCeleMeno.TabIndex = 5;
             this.LblCeleMeno.Text = "LblCeleMeno";
             // 
             // label3
@@ -93,7 +93,7 @@
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 13);
-            this.label3.TabIndex = 5;
+            this.label3.TabIndex = 4;
             this.label3.Text = "Celé meno:";
             // 
             // groupBox1
@@ -104,10 +104,11 @@
             this.groupBox1.Controls.Add(this.LblCeleMeno);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 97);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.groupBox1.Location = new System.Drawing.Point(12, 79);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 100);
-            this.groupBox1.TabIndex = 6;
+            this.groupBox1.Size = new System.Drawing.Size(273, 100);
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Spojenie dvoch stringov";
             // 
@@ -115,52 +116,53 @@
             // 
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.TxtResult);
+            this.groupBox2.Controls.Add(this.TxtAdditionResult);
             this.groupBox2.Controls.Add(this.TxtNumber2);
             this.groupBox2.Controls.Add(this.TxtNumber1);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(273, 79);
-            this.groupBox2.TabIndex = 7;
+            this.groupBox2.Size = new System.Drawing.Size(273, 61);
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Spočítanie čísel";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(177, 40);
+            this.label5.Location = new System.Drawing.Point(177, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(13, 13);
-            this.label5.TabIndex = 4;
+            this.label5.TabIndex = 3;
             this.label5.Text = "=";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(82, 40);
+            this.label4.Location = new System.Drawing.Point(82, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 3;
+            this.label4.TabIndex = 1;
             this.label4.Text = "+";
             // 
-            // TxtResult
+            // TxtAdditionResult
             // 
-            this.TxtResult.Enabled = false;
-            this.TxtResult.Location = new System.Drawing.Point(196, 37);
-            this.TxtResult.Name = "TxtResult";
-            this.TxtResult.Size = new System.Drawing.Size(70, 20);
-            this.TxtResult.TabIndex = 2;
+            this.TxtAdditionResult.Enabled = false;
+            this.TxtAdditionResult.Location = new System.Drawing.Point(196, 25);
+            this.TxtAdditionResult.Name = "TxtAdditionResult";
+            this.TxtAdditionResult.Size = new System.Drawing.Size(70, 20);
+            this.TxtAdditionResult.TabIndex = 4;
             // 
             // TxtNumber2
             // 
-            this.TxtNumber2.Location = new System.Drawing.Point(101, 37);
+            this.TxtNumber2.Location = new System.Drawing.Point(101, 25);
             this.TxtNumber2.Name = "TxtNumber2";
             this.TxtNumber2.Size = new System.Drawing.Size(70, 20);
-            this.TxtNumber2.TabIndex = 1;
+            this.TxtNumber2.TabIndex = 2;
             // 
             // TxtNumber1
             // 
-            this.TxtNumber1.Location = new System.Drawing.Point(6, 37);
+            this.TxtNumber1.Location = new System.Drawing.Point(6, 25);
             this.TxtNumber1.Name = "TxtNumber1";
             this.TxtNumber1.Size = new System.Drawing.Size(70, 20);
             this.TxtNumber1.TabIndex = 0;
@@ -194,7 +196,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox TxtResult;
+        private System.Windows.Forms.TextBox TxtAdditionResult;
         private System.Windows.Forms.TextBox TxtNumber2;
         private System.Windows.Forms.TextBox TxtNumber1;
     }

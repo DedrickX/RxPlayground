@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace ReactiveUiExample
 {
+    /// <summary>
+    /// Hlavný formulár
+    /// </summary>
     public partial class MainView : Form, IViewFor<MainViewModel>
     {
 
@@ -42,25 +45,15 @@ namespace ReactiveUiExample
                                              x => x.Number1,
                                              x => x.TxtNumber1.Text,
                                              x => x.ToString(),
-                                             x =>
-                                             {
-                                                 int i = 0;
-                                                 int.TryParse(x, out i);
-                                                 return i;
-                                             }));
+                                             x => x.TryParseIntOrDefault()));
                 registerDisposable(this.Bind(ViewModel,
                                              x => x.Number2,
                                              x => x.TxtNumber2.Text,
                                              x => x.ToString(),
-                                             x =>
-                                             {
-                                                 int i = 0;
-                                                 int.TryParse(x, out i);
-                                                 return i;
-                                             }));
+                                             x => x.TryParseIntOrDefault()));
                 registerDisposable(this.Bind(ViewModel,
                                              x => x.AdditionResult,
-                                             x => x.TxtResult.Text));
+                                             x => x.TxtAdditionResult.Text));
             });
 
         }
