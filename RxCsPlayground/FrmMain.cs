@@ -18,6 +18,7 @@ namespace RxCsPlayground
         {
             InitializeComponent();
 
+            // odkomentuj buď handlovanie eventu alebo inicializáciu observable:
             //TxtInput.TextChanged += InputTextChanged;
             InitObservable();
         }
@@ -51,13 +52,21 @@ namespace RxCsPlayground
 
         #region Observable riešenie
 
+        /// <summary>
+        /// Kntrakt uzatvorený pri začiatku sledovania signálu
+        /// </summary>
         private IDisposable textChangedSubscription;
 
+        /// <summary>
+        /// Inicializácia Observable a Observera volaná pri štarte formu
+        /// </summary>
         private void InitObservable()
         {
             var textChangedStream = Observable
                 .FromEventPattern<EventArgs>(TxtInput, "TextChanged")
-                .Select((x) => (x.Sender as TextBox)?.Text);
+                .Select((x) => (x.Sender as TextBox)?.Text)
+                .Throttle(TimeSpan.FromSeconds(1))
+                .ObserveOn(this);
 
             textChangedSubscription = textChangedStream
                 .Subscribe((x) => WriteToOutput(x));
