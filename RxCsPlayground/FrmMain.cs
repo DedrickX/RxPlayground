@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,25 +17,53 @@ namespace RxCsPlayground
         public FrmMain()
         {
             InitializeComponent();
+
+            //TxtInput.TextChanged += InputTextChanged;
+            InitObservable();
         }
 
-        protected override void OnLoad(EventArgs e)
+
+        #region Pomocné metódy
+
+        /// <summary>
+        /// Výpis do výstupného textboxu
+        /// </summary>
+        private void WriteToOutput(string text)
         {
-            base.OnLoad(e);
-
-            var subject = new ReplaySubject<string>();            
-            subject.OnNext("a");
-            WriteSequenceToOutput(subject);
-            subject.OnNext("b");
-            subject.OnNext("c");            
+            TxtOtuput.AppendText(text + Environment.NewLine);
         }
 
+        #endregion
 
-        void WriteSequenceToOutput(IObservable<string> sequence)
+
+        #region Klasický event
+
+        /// <summary>
+        /// Klasická metóda EventHandlera
+        /// </summary>
+        private void InputTextChanged(object sender, EventArgs e)
+        {            
+            WriteToOutput((sender as TextBox)?.Text);
+        }
+
+        #endregion
+
+
+        #region Observable riešenie
+
+        private IDisposable textChangedSubscription;
+
+        private void InitObservable()
         {
-            sequence.Subscribe(TxtOutput.AppendText);
+            var textChangedStream = Observable
+                .FromEventPattern<EventArgs>(TxtInput, "TextChanged")
+                .Select((x) => (x.Sender as TextBox)?.Text);
+
+            textChangedSubscription = textChangedStream
+                .Subscribe((x) => WriteToOutput(x));
         }
 
+        #endregion
 
     }
 }
