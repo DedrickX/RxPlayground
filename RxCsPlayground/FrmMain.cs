@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -44,7 +45,7 @@ namespace RxCsPlayground
         /// </summary>
         private void InputTextChanged(object sender, EventArgs e)
         {            
-            WriteToOutput((sender as TextBox)?.Text);
+            WriteToOutput((sender as TextBox)?.Text);            
         }
 
         #endregion
@@ -66,7 +67,7 @@ namespace RxCsPlayground
                 .FromEventPattern<EventArgs>(TxtInput, "TextChanged")
                 .Select((x) => (x.Sender as TextBox)?.Text)
                 .Throttle(TimeSpan.FromSeconds(1))
-                .ObserveOn(this);
+                .ObserveOn(System.Threading.SynchronizationContext.Current);
 
             textChangedSubscription = textChangedStream
                 .Subscribe((x) => WriteToOutput(x));
