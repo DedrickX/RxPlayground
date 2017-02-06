@@ -72,6 +72,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmSchedulers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSchedulers.Designer.cs">
+      <DependentUpon>FrmSchedulers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTextChangedExample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTextChangedExample.Designer.cs">
+      <DependentUpon>FrmTextChangedExample.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +92,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmSchedulers.resx">
+      <DependentUpon>FrmSchedulers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTextChangedExample.resx">
+      <DependentUpon>FrmTextChangedExample.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
