@@ -32,5 +32,11 @@ namespace RxCsPlayground
             var frm = new FrmSchedulers();
             frm.Show();
         }
+
+        private void BtnAsyncSearchBox_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmSearchBox();
+            frm.Show();
+        }
     }
 }

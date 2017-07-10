@@ -78,6 +78,12 @@
     <Compile Include="FrmSchedulers.Designer.cs">
       <DependentUpon>FrmSchedulers.cs</DependentUpon>
     </Compile>
+    <Compile Include="SearchBox\FrmSearchBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchBox\FrmSearchBox.Designer.cs">
+      <DependentUpon>FrmSearchBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmTextChangedExample.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,10 +96,14 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="SearchBox\ItemsSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmSchedulers.resx">
       <DependentUpon>FrmSchedulers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchBox\FrmSearchBox.resx">
+      <DependentUpon>FrmSearchBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmTextChangedExample.resx">
       <DependentUpon>FrmTextChangedExample.cs</DependentUpon>
