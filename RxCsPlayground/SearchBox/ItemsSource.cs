@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RxCsPlayground
@@ -9,10 +10,16 @@ namespace RxCsPlayground
     public class ItemsSource
     {
 
-        public List<string> GetItems(string filterText) => 
-            string.IsNullOrWhiteSpace(filterText) 
+        public SearchResult GetItems(string filterText)
+        {
+            var items = string.IsNullOrWhiteSpace(filterText)
                 ? _items
-                : _items.Where(x => x.ToLower().Contains(filterText.ToLower())).ToList();
+                : _items.Where(x => x.ToLower().Contains(filterText.ToLower()));
+
+            Thread.Sleep(1000);
+
+            return new SearchResult(filterText, items);
+        }
 
 
         private List<string> _items = new List<string> {

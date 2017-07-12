@@ -99,6 +99,7 @@
     <Compile Include="SearchBox\ItemsSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchBox\SearchResult.cs" />
     <EmbeddedResource Include="FrmSchedulers.resx">
       <DependentUpon>FrmSchedulers.cs</DependentUpon>
     </EmbeddedResource>

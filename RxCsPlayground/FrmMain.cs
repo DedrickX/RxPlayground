@@ -35,7 +35,7 @@ namespace RxCsPlayground
 
         private void BtnAsyncSearchBox_Click(object sender, EventArgs e)
         {
-            var frm = new FrmSearchBox();
+            var frm = new FrmSearchBox(new ItemsSource());
             frm.Show();
         }
     }
