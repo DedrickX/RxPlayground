@@ -1,63 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 
 namespace RxCsPlayground.PaginatedSearchBox
 {
+
+    /// <summary>
+    /// Asynchrónny zdroj dát podporujúci stránkovanie
+    /// </summary>
     public class PaginatedItemsSource : IPaginatedItemsSource
     {
 
-        public const int ItemsPerPage = 2;
-        
+        /// <summary>
+        /// Počet položiek, ktoré prídu v jednej "stránke" výsledkov vyhľadávania
+        /// </summary>
+        public const int ItemsPerPage = 4;
 
+
+        /// <summary>
+        /// Umelé oneskorenie simulujúce zložité načítavanie dát zo zdroja
+        /// </summary>
+        public const int FakeLoadDelay = 200;
+
+
+        /// <summary>
+        /// Vyhľadanie položiek obsahujúcich vyhľadávaný výraz
+        /// </summary>
         public IObservable<PaginatedSearchResult> GetItems(string searchTerm)
         {
+            // Vrátime novú observable koleciu vytvorenú pomocou užitočnej factory metódy.
+            // Všetko čo potrebujeme je pár ďalších funkcií...
             return Observable.Generate<PaginatedSearchState, PaginatedSearchResult>(
                 new PaginatedSearchState(searchTerm),
-                state => state.State != StateVariant.Done, 
+                x => x.State != StateVariant.Done, 
                 Iterate, 
                 GetResult);
         }
 
+        
+        /// <summary>
+        /// Funkcia, ktorá vygeneruje filtrovací predicate podľa aktuálne hľadaného výrazu
+        /// </summary>
+        private Func<string, bool> _filterPredicate(string searchTerm) =>
+            x => x.ToLower().Contains(searchTerm.ToLower());
 
+
+        /// <summary>
+        /// Iterácia po dátach a stránkovanie - predstavuje zmenu aktuálneho stavu na nový stav
+        /// </summary>
+        /// <remarks>
+        /// Zodpovedá delegátovi z metódy <see cref="Observable.Generate{TState, TResult}(TState, Func{TState, bool}, Func{TState, TState}, Func{TState, TResult})"/>
+        /// </remarks>
         private PaginatedSearchState Iterate(PaginatedSearchState currentState)
         {
             // simulujeme dlho trvajucu operaciu
-            Thread.Sleep(500);
-
-            var newPageNr = currentState.PageNr + 1;
-
+            Thread.Sleep(FakeLoadDelay);
+                        
             var items = string.IsNullOrWhiteSpace(currentState.SearchTerm)
                 ? Enumerable.Empty<string>()
                 : _items
-                    .Where(x => x.ToLower().Contains(currentState.SearchTerm.ToLower()))
+                    .Where(_filterPredicate(currentState.SearchTerm))
                     .Skip(currentState.PageNr * ItemsPerPage)
                     .Take(ItemsPerPage);
 
             var newState = (items.Count() > 0)
                 ? StateVariant.ReturningItems 
                 : StateVariant.Done;
-            
+
+            var newPageNr = currentState.PageNr + 1;
+
+            // vysledny stav bude pochadzat z aktualneho stavu so zmenenymi hodnotami
             return currentState.ChangeState(newPageNr, items, newState);
         }
 
 
+        /// <summary>
+        /// Vygenerovanie výslednej položky do streamu na základe aktuálneho stavu
+        /// </summary>
+        /// <remarks>
+        /// Zodpovedá delegátovi z metódy <see cref="Observable.Generate{TState, TResult}(TState, Func{TState, bool}, Func{TState, TState}, Func{TState, TResult})"/>
+        /// </remarks>
         private PaginatedSearchResult GetResult(PaginatedSearchState currentState)
         {
+            Debug.Print($"Source.GetResult ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+
             if (currentState.State == StateVariant.New)
-                return new SearchResult_StartingNewStream();
+                return new SearchResult_StartingNewStream(currentState.SearchTerm);
             else
                 return new SearchResult_ReturningItems(currentState.SearchTerm, currentState.PageNr, currentState.Items);
         }
                         
         
-        #region Interna kolekcia poloziek
+        #region Interná kolekcia položiek
 
         private List<string> _items = new List<string>
         {

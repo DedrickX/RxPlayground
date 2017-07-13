@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace RxCsPlayground.PaginatedSearchBox
@@ -57,6 +53,8 @@ namespace RxCsPlayground.PaginatedSearchBox
 
         private void InitStreams()
         {
+            Debug.Print($"Form ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+
             // stream z eventu TextChanged
             var textChangedStream = Observable
                 .FromEventPattern<EventArgs>(TxtSearch, nameof(TxtSearch.TextChanged))
@@ -75,27 +73,34 @@ namespace RxCsPlayground.PaginatedSearchBox
                 .DistinctUntilChanged();            
                         
             // vytvoríme stream výsledkov asynchrónneho vyhľadávania zo streamu vyhľadávaného textu
-            var results = from searchTerm in inputStream
-                          from result in _itemsSource.GetItems(searchTerm)
+            var searchResultStream = from searchTerm in inputStream
+                          from result in _itemsSource.GetItems(searchTerm).TakeUntil(inputStream)
                           select result;
 
             // sledujeme stream výsledkov a výsledky plníme do ListBoxu
-            _resultsSubscription = results
+            _resultsSubscription = searchResultStream
                 .ObserveOn(this)
-                .Subscribe(result => FillResultItems(result));
+                .Subscribe(result => FillResultItems(result), 
+                           ex => LblProgressInfo.Text = $"Pri vyhľadávaní vznihka chyba {ex.Message}!",
+                           () => LblProgressInfo.Text = "Vyhľadávanie dokončené.");
         }
                         
                 
         private void FillResultItems(PaginatedSearchResult searchResult)
         {
+            Debug.Print($"FillResultItems ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                        
             if (searchResult is SearchResult_StartingNewStream)
             {
+                var newStreamResult = searchResult as SearchResult_StartingNewStream;
                 ListResults.Items.Clear();
+                LblProgressInfo.Text = $"Hľadám položky obsahujúce {newStreamResult.SearchTerm}...";
             }
             else
             {
                 var itemsResult = searchResult as SearchResult_ReturningItems;
                 ListResults.Items.AddRange(itemsResult.Items.ToArray());
+                LblProgressInfo.Text = $"Zobrazujem položky obsahujúce {itemsResult.SearchTerm}, stránka {itemsResult.PageNr}...";
             }
         }
 
