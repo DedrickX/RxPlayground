@@ -78,6 +78,16 @@
     <Compile Include="FrmSchedulers.Designer.cs">
       <DependentUpon>FrmSchedulers.cs</DependentUpon>
     </Compile>
+    <Compile Include="PaginatedSearchBox\FrmPaginatedSearchBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaginatedSearchBox\FrmPaginatedSearchBox.Designer.cs">
+      <DependentUpon>FrmPaginatedSearchBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\IPaginatedItemsSource.cs" />
+    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedItemsSource.cs" />
+    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedSearchResult.cs" />
+    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedSearchState.cs" />
     <Compile Include="SearchBox\FrmSearchBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +112,9 @@
     <Compile Include="SearchBox\SearchResult.cs" />
     <EmbeddedResource Include="FrmSchedulers.resx">
       <DependentUpon>FrmSchedulers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaginatedSearchBox\FrmPaginatedSearchBox.resx">
+      <DependentUpon>FrmPaginatedSearchBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchBox\FrmSearchBox.resx">
       <DependentUpon>FrmSearchBox.cs</DependentUpon>

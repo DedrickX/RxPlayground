@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RxCsPlayground.PaginatedSearchBox;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,5 +39,12 @@ namespace RxCsPlayground
             var frm = new FrmSearchBox(new ItemsSource());
             frm.Show();
         }
+
+        private void BtnPaginatedAsyncSearchBox_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmPaginatedSearchBox(new PaginatedItemsSource());
+            frm.Show();
+        }
+
     }
 }
