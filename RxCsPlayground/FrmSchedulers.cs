@@ -16,43 +16,63 @@ namespace RxCsPlayground
 {
     public partial class FrmSchedulers : Form
     {
-        
+        private IDisposable _subscription;
+        private IDisposable _numbersSubscription;
 
         public FrmSchedulers()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
 
-            // vypíšeme si id hlavného vlákna UI
-            PrintThreadId("UI");
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
             var clickStream = Observable.FromEventPattern(this.button1, "Click");
-                //.Delay(TimeSpan.FromMilliseconds(100));
 
-            clickStream.Subscribe(
-                x => 
-                {
-                    // vypíšeme id vlákna na ktorom sme získali oznam o kliku
-                    PrintThreadId("Subscribed on");
-                    // aktualizujeme UI
-                    UpdateTextBox();
-                });
+            _subscription = clickStream
+                .Subscribe(x => { PrintText("ClickStream - New numbers stream");
+                                  SubscribeForNumbers(clickStream); },
+                           err => PrintText("ClickStream Error!"),
+                           () => PrintText("ClickStream Done"));                        
         }
-
-
-        /// <summary>
-        /// Vypíše číslo vlákna do Debug výstupu
-        /// </summary>        
-        private void PrintThreadId(string text)
+                
+        
+        protected IObservable<long> GetNumbers()
         {
-            Debug.Print($"{text} thread #{Thread.CurrentThread.ManagedThreadId}");
+            return Observable.Timer(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
         }
+
+
+        protected void SubscribeForNumbers(IObservable<System.Reactive.EventPattern<object>> until)
+        {
+            _numbersSubscription = GetNumbers()
+                .ObserveOn(this)
+                .TakeUntil(until)
+                .Subscribe(x => PrintText($"#{x}"),
+                           err => PrintText("NumbersStream Error!"),
+                           () => PrintText("NumbersStream Done"));
+        }
+                        
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            _numbersSubscription?.Dispose();
+            _subscription?.Dispose();
+
+        }
+        
 
         /// <summary>
         /// Aktualizuje textbox - pridá nový riadok s oznamom že prebehol click
         /// </summary>
-        private void UpdateTextBox()
+        private void PrintText(string text)
         {
-            TxtOtuput.AppendText("Click!\n");
+            TxtOtuput.AppendText(text + Environment.NewLine);
         }
+
     }
 }

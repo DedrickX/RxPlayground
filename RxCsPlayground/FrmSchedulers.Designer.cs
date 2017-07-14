@@ -39,7 +39,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Click";
+            this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // TxtOtuput

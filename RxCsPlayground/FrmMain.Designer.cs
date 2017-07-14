@@ -36,7 +36,7 @@
             // 
             // BtnTextChangedExample
             // 
-            this.BtnTextChangedExample.Location = new System.Drawing.Point(12, 174);
+            this.BtnTextChangedExample.Location = new System.Drawing.Point(12, 124);
             this.BtnTextChangedExample.Name = "BtnTextChangedExample";
             this.BtnTextChangedExample.Size = new System.Drawing.Size(192, 23);
             this.BtnTextChangedExample.TabIndex = 0;
@@ -46,18 +46,18 @@
             // 
             // BtnSchedulers
             // 
-            this.BtnSchedulers.Location = new System.Drawing.Point(12, 203);
+            this.BtnSchedulers.Location = new System.Drawing.Point(12, 153);
             this.BtnSchedulers.Name = "BtnSchedulers";
-            this.BtnSchedulers.Size = new System.Drawing.Size(192, 23);
+            this.BtnSchedulers.Size = new System.Drawing.Size(192, 57);
             this.BtnSchedulers.TabIndex = 1;
-            this.BtnSchedulers.Text = "Schedulers";
+            this.BtnSchedulers.Text = "Test...";
             this.BtnSchedulers.UseVisualStyleBackColor = true;
             this.BtnSchedulers.Click += new System.EventHandler(this.BtnSchedulers_Click);
             // 
             // BtnAsyncSearchBox
             // 
             this.BtnAsyncSearchBox.Location = new System.Drawing.Point(12, 11);
-            this.BtnAsyncSearchBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnAsyncSearchBox.Margin = new System.Windows.Forms.Padding(2);
             this.BtnAsyncSearchBox.Name = "BtnAsyncSearchBox";
             this.BtnAsyncSearchBox.Size = new System.Drawing.Size(192, 23);
             this.BtnAsyncSearchBox.TabIndex = 2;
