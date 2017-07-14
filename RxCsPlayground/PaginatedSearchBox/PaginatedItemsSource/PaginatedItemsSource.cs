@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 
@@ -38,7 +39,8 @@ namespace RxCsPlayground.PaginatedSearchBox
                 new PaginatedSearchState(searchTerm),
                 x => x.State != StateVariant.Done, 
                 Iterate, 
-                GetResult);
+                GetResult,
+                Scheduler.Default);
         }
 
         

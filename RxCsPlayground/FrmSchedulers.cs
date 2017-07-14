@@ -31,28 +31,42 @@ namespace RxCsPlayground
 
             var clickStream = Observable.FromEventPattern(this.button1, "Click");
 
-            _subscription = clickStream
-                .Subscribe(x => { PrintText("ClickStream - New numbers stream");
-                                  SubscribeForNumbers(clickStream); },
-                           err => PrintText("ClickStream Error!"),
-                           () => PrintText("ClickStream Done"));                        
+            var numbersStream = from click in clickStream
+                                from number in GetNumbers().TakeUntil(clickStream)
+                                select number;
+
+            _subscription = numbersStream
+                    .ObserveOn(this)
+                    .Subscribe(x => PrintText($"#{x}"),
+                               err => PrintText("NumbersStream Error!"),
+                               () => PrintText("NumbersStream Done"));
+
+            //_subscription = clickStream
+            //    .Subscribe(x => { PrintText("ClickStream - New numbers stream");
+            //                      SubscribeForNumbers(clickStream); },
+            //               err => PrintText("ClickStream Error!"),
+            //               () => PrintText("ClickStream Done"));                        
         }
-                
-        
+
+
         protected IObservable<long> GetNumbers()
         {
-            return Observable.Timer(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            return Observable.Generate<long, long>(0,
+                    x => x < 10,
+                    x => { Thread.Sleep(500); return x + 1; },
+                    x => x, Scheduler.Default);                
+
         }
 
 
         protected void SubscribeForNumbers(IObservable<System.Reactive.EventPattern<object>> until)
         {
-            _numbersSubscription = GetNumbers()
-                .ObserveOn(this)
-                .TakeUntil(until)
-                .Subscribe(x => PrintText($"#{x}"),
-                           err => PrintText("NumbersStream Error!"),
-                           () => PrintText("NumbersStream Done"));
+            //_numbersSubscription = GetNumbers()
+            //    .ObserveOn(this)
+            //    .TakeUntil(until)
+            //    .Subscribe(x => PrintText($"#{x}"),
+            //               err => PrintText("NumbersStream Error!"),
+            //               () => PrintText("NumbersStream Done"));
         }
                         
 
