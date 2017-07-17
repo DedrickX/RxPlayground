@@ -67,17 +67,23 @@ namespace RxCsPlayground.Cities
         /// Funkcia vracajúca filtrovaciu funkciu podľa filtrovaného reťazca
         /// </summary>        
         private Func<string, bool> GetFilterPredicate(string filter) =>
-            x => x.ToLower().Contains(filter.ToLower());
+            x => string.IsNullOrWhiteSpace(filter)
+                ? true
+                : x.ToLower().Contains(filter.ToLower());
 
 
         /// <summary>
         /// Funkcia vyhľadá mestá a obce podľa filtra patriace danej stránke a vráti ich vo forme nového interného stavu
         /// </summary>        
-        private CitiesStreamState FindCitiesAndCreateNewState(string filter, int page) =>        
-            new CitiesStreamState(filter, page, _cities
+        private CitiesStreamState FindCitiesAndCreateNewState(string filter, int page)
+        {
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(FakeLoadDelay));
+            return new CitiesStreamState(filter, page, _cities
                 .Where(GetFilterPredicate(filter))
                 .Skip(page * ItemsPerPage)
                 .Take(ItemsPerPage));
+        }
+            
                                         
     }
 

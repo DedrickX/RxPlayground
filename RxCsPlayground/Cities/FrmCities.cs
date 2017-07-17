@@ -21,8 +21,6 @@ namespace RxCsPlayground.Cities
 
         private IDisposable _resultsSubscription;
 
-        private IScheduler _uiScheduler;
-
         private IScheduler _asyncScheduler;
         
 
@@ -34,6 +32,7 @@ namespace RxCsPlayground.Cities
             InitializeComponent();
 
             _repository = repository;
+            _asyncScheduler = Scheduler.NewThread;
         }
 
 
@@ -88,6 +87,7 @@ namespace RxCsPlayground.Cities
             var searchResultStream = from searchTerm in inputStream
                                      from result in _repository
                                                     .GetCities(searchTerm)
+                                                    .SubscribeOn(_asyncScheduler)
                                                     .TakeUntil(inputStream)
                                      select result;
 
