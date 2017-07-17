@@ -1,6 +1,6 @@
 ﻿namespace RxCsPlayground
 {
-    partial class FrmSchedulers
+    partial class FrmTest
     {
         /// <summary>
         /// Required designer variable.
@@ -63,7 +63,7 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Výstup";
             // 
-            // FrmSchedulers
+            // FrmTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,8 +71,8 @@
             this.Controls.Add(this.TxtOtuput);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
-            this.Name = "FrmSchedulers";
-            this.Text = "Schedulers";
+            this.Name = "FrmTest";
+            this.Text = "Test";
             this.ResumeLayout(false);
             this.PerformLayout();
 

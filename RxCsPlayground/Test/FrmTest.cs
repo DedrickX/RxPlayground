@@ -14,12 +14,11 @@ using System.Windows.Forms;
 
 namespace RxCsPlayground
 {
-    public partial class FrmSchedulers : Form
+    public partial class FrmTest : Form
     {
-        private IDisposable _subscription;
-        private IDisposable _numbersSubscription;
+        private IDisposable _subscription;        
 
-        public FrmSchedulers()
+        public FrmTest()
         {
             InitializeComponent();            
         }
@@ -73,8 +72,7 @@ namespace RxCsPlayground
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-
-            _numbersSubscription?.Dispose();
+                        
             _subscription?.Dispose();
 
         }

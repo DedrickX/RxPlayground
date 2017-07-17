@@ -21,25 +21,14 @@ namespace RxCsPlayground
             InitializeComponent();
         }
 
-
-        private void BtnTextChangedExample_Click(object sender, EventArgs e)
-        {
-            var frm = new FrmTextChangedExample();
-            frm.Show();
-        }
-
+                
         private void BtnSchedulers_Click(object sender, EventArgs e)
         {
-            var frm = new FrmSchedulers();
+            var frm = new FrmTest();
             frm.Show();
         }
 
-        private void BtnAsyncSearchBox_Click(object sender, EventArgs e)
-        {
-            var frm = new FrmSearchBox(new ItemsSource());
-            frm.Show();
-        }
-
+        
         private void BtnPaginatedAsyncSearchBox_Click(object sender, EventArgs e)
         {
             var frm = new FrmPaginatedSearchBox(new PaginatedItemsSource());
