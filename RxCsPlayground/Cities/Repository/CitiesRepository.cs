@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RxCsPlayground.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -36,9 +37,11 @@ namespace RxCsPlayground.Cities
         #region Konštruktor
 
 
-        public CitiesRepository(List<string> cities)
+        public CitiesRepository()
         {
-            _cities = cities;
+            _cities = Resources.CitiesList
+                .Split(';')
+                .ToList();
         } 
 
 

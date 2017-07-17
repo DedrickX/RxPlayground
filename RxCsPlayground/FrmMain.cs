@@ -35,5 +35,10 @@ namespace RxCsPlayground
             frm.Show();
         }
 
+        private void BtnCities_Click(object sender, EventArgs e)
+        {
+            var frm = new Cities.FrmCities(new Cities.CitiesRepository());
+            frm.Show();
+        }
     }
 }

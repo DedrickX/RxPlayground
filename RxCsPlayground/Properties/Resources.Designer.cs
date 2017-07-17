@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RxCsPlayground.Properties
-{
-
-
+namespace RxCsPlayground.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,98 @@ namespace RxCsPlayground.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RxCsPlayground.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ábelová
+        ///Abovce
+        ///Abrahám
+        ///Abrahámovce / okres Bardejov
+        ///Abrahámovce / okres kezmarok
+        ///Abramová
+        ///Abranovce
+        ///Adamovské Kochanovce
+        ///Adidovce
+        ///Alekšince
+        ///Andovce
+        ///Andrejová
+        ///Ardanovce
+        ///Ardovo
+        ///Arnutovce
+        ///Báb
+        ///Babie
+        ///Babín
+        ///Babiná
+        ///Babindol
+        ///Babinec
+        ///Bacúch
+        ///Bacúrov
+        ///Báč
+        ///Bačka
+        ///Bačkov
+        ///Bačkovík
+        ///Baďan
+        ///Bádice
+        ///Badín
+        ///Báhoň
+        ///Bajany
+        ///Bajč
+        ///Bajerov
+        ///Bajerovce
+        ///Bajka
+        ///Bajtava
+        ///Baka
+        ///Baláže
+        ///Baldovce
+        ///Balog nad Ipľom
+        ///Baloň
+        ///Baňa
+        ///Banka
+        ///Bánov
+        ///Bánovce nad Bebravou
+        ///Bánovce nad Ondavou
+        ///Banská Belá
+        ///Banská Bystrica        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CitiesList {
+            get {
+                return ResourceManager.GetString("CitiesList", resourceCulture);
             }
         }
     }

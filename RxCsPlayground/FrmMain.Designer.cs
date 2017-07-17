@@ -29,37 +29,39 @@
         private void InitializeComponent()
         {
             this.BtnSchedulers = new System.Windows.Forms.Button();
-            this.BtnPaginatedAsyncSearchBox = new System.Windows.Forms.Button();
+            this.BtnCities = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnSchedulers
             // 
-            this.BtnSchedulers.Location = new System.Drawing.Point(12, 153);
+            this.BtnSchedulers.Location = new System.Drawing.Point(309, 14);
+            this.BtnSchedulers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnSchedulers.Name = "BtnSchedulers";
-            this.BtnSchedulers.Size = new System.Drawing.Size(192, 57);
+            this.BtnSchedulers.Size = new System.Drawing.Size(288, 88);
             this.BtnSchedulers.TabIndex = 1;
             this.BtnSchedulers.Text = "Test...";
             this.BtnSchedulers.UseVisualStyleBackColor = true;
             this.BtnSchedulers.Click += new System.EventHandler(this.BtnSchedulers_Click);
             // 
-            // BtnPaginatedAsyncSearchBox
+            // BtnCities
             // 
-            this.BtnPaginatedAsyncSearchBox.Location = new System.Drawing.Point(11, 11);
-            this.BtnPaginatedAsyncSearchBox.Margin = new System.Windows.Forms.Padding(2);
-            this.BtnPaginatedAsyncSearchBox.Name = "BtnPaginatedAsyncSearchBox";
-            this.BtnPaginatedAsyncSearchBox.Size = new System.Drawing.Size(192, 23);
-            this.BtnPaginatedAsyncSearchBox.TabIndex = 3;
-            this.BtnPaginatedAsyncSearchBox.Text = "Paginated Async SearchBox";
-            this.BtnPaginatedAsyncSearchBox.UseVisualStyleBackColor = true;
-            this.BtnPaginatedAsyncSearchBox.Click += new System.EventHandler(this.BtnPaginatedAsyncSearchBox_Click);
+            this.BtnCities.Location = new System.Drawing.Point(13, 14);
+            this.BtnCities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnCities.Name = "BtnCities";
+            this.BtnCities.Size = new System.Drawing.Size(288, 88);
+            this.BtnCities.TabIndex = 2;
+            this.BtnCities.Text = "Zoznam miest a obcí";
+            this.BtnCities.UseVisualStyleBackColor = true;
+            this.BtnCities.Click += new System.EventHandler(this.BtnCities_Click);
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 345);
-            this.Controls.Add(this.BtnPaginatedAsyncSearchBox);
+            this.ClientSize = new System.Drawing.Size(756, 531);
+            this.Controls.Add(this.BtnCities);
             this.Controls.Add(this.BtnSchedulers);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
@@ -69,7 +71,7 @@
 
         #endregion
         private System.Windows.Forms.Button BtnSchedulers;
-        private System.Windows.Forms.Button BtnPaginatedAsyncSearchBox;
+        private System.Windows.Forms.Button BtnCities;
     }
 }
 
