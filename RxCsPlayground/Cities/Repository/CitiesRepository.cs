@@ -75,7 +75,7 @@ namespace RxCsPlayground.Cities
         /// </summary>
         private Func<string, bool> GetFilterPredicate(string filter) =>
             x => string.IsNullOrWhiteSpace(filter)
-                ? false
+                ? true
                 : x.ToLower().Contains(filter.ToLower());
 
 
