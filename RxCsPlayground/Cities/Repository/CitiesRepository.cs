@@ -27,13 +27,13 @@ namespace RxCsPlayground.Cities
         /// <summary>
         /// Maximálny počet stránok, ktoré vrátime
         /// </summary>
-        public const int MaxPagesCount = 5;
+        public const int MaxPagesCount = 20;
 
 
         /// <summary>
-        /// Umelé oneskorenie pri načítaní stránky údajov
+        /// Umelé oneskorenie pri načítaní stránky údajov - akože to ide z databázy alebo webového servisu
         /// </summary>
-        public const int LoadItemsDelay = 500;
+        public const int LoadItemsDelay = 200;
 
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace RxCsPlayground.Cities
         /// </summary>
         private Func<string, bool> GetFilterPredicate(string filter) =>
             x => string.IsNullOrWhiteSpace(filter)
-                ? true
+                ? false
                 : x.ToLower().Contains(filter.ToLower());
 
 

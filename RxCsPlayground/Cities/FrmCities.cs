@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace RxCsPlayground.Cities
 {
+
     public partial class FrmCities : Form
     {
 
@@ -69,44 +66,40 @@ namespace RxCsPlayground.Cities
         private void InitStreams()
         {
             Debug.Print($"Štart UI, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-
-            // 1 - stream z eventu TextChanged
-            var textChangedStream = Observable
-                .FromEventPattern<EventArgs>(TxtSearch, nameof(TxtSearch.TextChanged))
-                .Throttle(TimeSpan.FromSeconds(0.5))
-                .Select(args => (args.Sender as TextBox).Text);
-
-            // 2 - stream z eventu stlačenia tlačidla Enter
-            var enterPressedStream = Observable
-                .FromEventPattern<KeyEventArgs>(TxtSearch, nameof(TxtSearch.KeyDown))
+                        
+            // stream požiadaviek na vyhľadanie
+            var searchTermStream = Observable                
+                .FromEventPattern<KeyEventArgs>(TxtSearch, nameof(TxtSearch.KeyDown))                
                 .Where(args => args.EventArgs.KeyCode == Keys.Enter)
-                .Select(args => (args.Sender as TextBox).Text);
+                .Select(args => (args.Sender as TextBox).Text)
+                .DistinctUntilChanged();
 
-            var searchTermStream = textChangedStream
-                .Merge(enterPressedStream) // Merge je paralelné spojenie streamov                
-                .DistinctUntilChanged()
-                .ObserveOn(_nextThreadScheduler);
+            // stream udalostí o zatváraní okna
+            var formClosingStream = Observable
+                .FromEventPattern(this, nameof(this.FormClosing))
+                .Select(args => string.Empty);
+
+            // stream udalostí o tom, že je potrebné ukončiť aktuálne vyhľadávanie
+            var stopSearchingStream = searchTermStream
+                .Merge(formClosingStream);
 
             // prihlásim sa na odber požiadaviek na vyhľadávanie
             _searchTermSubscription = searchTermStream
-                .Subscribe(
-                    term => 
-                    {
-                        Console.WriteLine($"Vyhľadávam \"{term}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-                        _resultsSubscription = _repository.GetCities(term)                            
-                            .TakeUntil(searchTermStream)
-                            .ObserveOn(_uiScheduler)
-                            .Subscribe(result => 
-                                FillCities(result), 
-                                ShowErrorInfo, 
-                                () =>
-                                {
-                                    Debug.Print($"Vyhľadávanie dokončené, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-                                    ShowInfoText("Vyhľadávanie dokončené.");
-                                }
-                            );
-                    }, 
-                    ShowErrorInfo);
+                .ObserveOn(_nextThreadScheduler)
+                .Subscribe(term => 
+                {
+                    Console.WriteLine($"Vyhľadávam \"{term}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                    _resultsSubscription = _repository.GetCities(term)                            
+                        .TakeUntil(stopSearchingStream)
+                        .ObserveOn(_uiScheduler)
+                        .Subscribe(result => FillCities(result), ShowErrorInfo, 
+                            () =>
+                            {
+                                Debug.Print($"Vyhľadávanie dokončené, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                                ShowInfoText($"Vyhľadávanie dokončené.");
+                            });
+                }, 
+                ShowErrorInfo);
         }
 
 
@@ -140,4 +133,5 @@ namespace RxCsPlayground.Cities
         #endregion
 
     }
+
 }

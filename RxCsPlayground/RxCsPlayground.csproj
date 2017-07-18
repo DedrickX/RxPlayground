@@ -88,16 +88,6 @@
     <Compile Include="Test\FrmTest.Designer.cs">
       <DependentUpon>FrmTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaginatedSearchBox\FrmPaginatedSearchBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PaginatedSearchBox\FrmPaginatedSearchBox.Designer.cs">
-      <DependentUpon>FrmPaginatedSearchBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\IPaginatedItemsSource.cs" />
-    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedItemsSource.cs" />
-    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedSearchResult.cs" />
-    <Compile Include="PaginatedSearchBox\PaginatedItemsSource\PaginatedSearchState.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,9 +101,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Test\FrmTest.resx">
       <DependentUpon>FrmTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PaginatedSearchBox\FrmPaginatedSearchBox.resx">
-      <DependentUpon>FrmPaginatedSearchBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

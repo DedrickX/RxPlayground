@@ -28,27 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BtnSchedulers = new System.Windows.Forms.Button();
+            this.BtnTest = new System.Windows.Forms.Button();
             this.BtnCities = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // BtnSchedulers
+            // BtnTest
             // 
-            this.BtnSchedulers.Location = new System.Drawing.Point(309, 14);
-            this.BtnSchedulers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.BtnSchedulers.Name = "BtnSchedulers";
-            this.BtnSchedulers.Size = new System.Drawing.Size(288, 88);
-            this.BtnSchedulers.TabIndex = 1;
-            this.BtnSchedulers.Text = "Test...";
-            this.BtnSchedulers.UseVisualStyleBackColor = true;
-            this.BtnSchedulers.Click += new System.EventHandler(this.BtnSchedulers_Click);
+            this.BtnTest.Location = new System.Drawing.Point(12, 51);
+            this.BtnTest.Name = "BtnTest";
+            this.BtnTest.Size = new System.Drawing.Size(192, 33);
+            this.BtnTest.TabIndex = 1;
+            this.BtnTest.Text = "Test...";
+            this.BtnTest.UseVisualStyleBackColor = true;
+            this.BtnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
             // BtnCities
             // 
-            this.BtnCities.Location = new System.Drawing.Point(13, 14);
-            this.BtnCities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnCities.Location = new System.Drawing.Point(12, 12);
             this.BtnCities.Name = "BtnCities";
-            this.BtnCities.Size = new System.Drawing.Size(288, 88);
+            this.BtnCities.Size = new System.Drawing.Size(192, 33);
             this.BtnCities.TabIndex = 2;
             this.BtnCities.Text = "Zoznam miest a obcí";
             this.BtnCities.UseVisualStyleBackColor = true;
@@ -56,12 +54,11 @@
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 531);
+            this.ClientSize = new System.Drawing.Size(504, 345);
             this.Controls.Add(this.BtnCities);
-            this.Controls.Add(this.BtnSchedulers);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Controls.Add(this.BtnTest);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
@@ -70,7 +67,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button BtnSchedulers;
+        private System.Windows.Forms.Button BtnTest;
         private System.Windows.Forms.Button BtnCities;
     }
 }
