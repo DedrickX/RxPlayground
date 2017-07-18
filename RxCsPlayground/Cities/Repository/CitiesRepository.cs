@@ -1,10 +1,12 @@
 ﻿using RxCsPlayground.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RxCsPlayground.Cities
@@ -14,13 +16,7 @@ namespace RxCsPlayground.Cities
     /// Repository poskytujúce zoznam miest a obcí
     /// </summary>
     public class CitiesRepository : ICitiesRepository
-    {
-
-        /// <summary>
-        /// Interná "akože databáza" miest a obcí :)
-        /// </summary>
-        private List<string> _cities;
-
+    {                
 
         /// <summary>
         /// Počet položiek, ktoré prídu v jednej "stránke" výsledkov vyhľadávania
@@ -29,9 +25,21 @@ namespace RxCsPlayground.Cities
 
 
         /// <summary>
-        /// Umelé oneskorenie simulujúce zložité načítavanie dát zo zdroja
+        /// Maximálny počet stránok, ktoré vrátime
         /// </summary>
-        public int FakeLoadDelay = 200;
+        public const int MaxPagesCount = 5;
+
+
+        /// <summary>
+        /// Umelé oneskorenie pri načítaní stránky údajov
+        /// </summary>
+        public const int LoadItemsDelay = 500;
+
+
+        /// <summary>
+        /// Interná "akože databáza" miest a obcí :)
+        /// </summary>
+        private List<string> _cities;
 
 
         #region Konštruktor
@@ -42,11 +50,10 @@ namespace RxCsPlayground.Cities
             _cities = Resources.CitiesList
                 .Split(';')
                 .ToList();
-        } 
+        }
 
 
         #endregion
-               
 
 
         /// <summary>
@@ -55,17 +62,17 @@ namespace RxCsPlayground.Cities
         /// <remarks>
         /// Využijeme korekurziu - funkcii Observable.Generate podhodíme pár ďalších funkcií na základe ktorých bude generovať stream.
         /// </remarks>
-        public IObservable<CitiesStreamItem> GetCities(string filter) =>            
+        public IObservable<CitiesStreamItem> GetCities(string filter) =>
             Observable.Generate(
                 FindCitiesAndCreateNewState(filter, 0),
-                x => x.Cities.Count() > 0,
-                x => FindCitiesAndCreateNewState(x.Filter, x.Page + 1),
-                x => new CitiesStreamItem(x.Page, x.Cities));
-                                
+                currentState => (currentState.Page < MaxPagesCount) && (currentState.Cities.Count() > 0),
+                currentState => FindCitiesAndCreateNewState(currentState.Filter, currentState.Page + 1),
+                currentState => new CitiesStreamItem(currentState.Page, currentState.Cities));
+
 
         /// <summary>
         /// Funkcia vracajúca filtrovaciu funkciu podľa filtrovaného reťazca
-        /// </summary>        
+        /// </summary>
         private Func<string, bool> GetFilterPredicate(string filter) =>
             x => string.IsNullOrWhiteSpace(filter)
                 ? true
@@ -74,17 +81,17 @@ namespace RxCsPlayground.Cities
 
         /// <summary>
         /// Funkcia vyhľadá mestá a obce podľa filtra patriace danej stránke a vráti ich vo forme nového interného stavu
-        /// </summary>        
+        /// </summary>
         private CitiesStreamState FindCitiesAndCreateNewState(string filter, int page)
         {
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(FakeLoadDelay));
+            System.Threading.Thread.Sleep(LoadItemsDelay);
+            Debug.Print($"Repository - stránka {page}, výraz \"{filter}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
             return new CitiesStreamState(filter, page, _cities
                 .Where(GetFilterPredicate(filter))
-                .Skip(page * ItemsPerPage)
+                .Skip(page* ItemsPerPage)
                 .Take(ItemsPerPage));
         }
-            
-                                        
+
     }
 
 }

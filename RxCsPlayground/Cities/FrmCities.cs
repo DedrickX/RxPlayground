@@ -19,9 +19,11 @@ namespace RxCsPlayground.Cities
 
         private ICitiesRepository _repository;
 
+        private IDisposable _searchTermSubscription;
         private IDisposable _resultsSubscription;
 
-        private IScheduler _asyncScheduler;
+        private IScheduler _uiScheduler;
+        private IScheduler _nextThreadScheduler;
         
 
         #region Konštruktor
@@ -32,7 +34,9 @@ namespace RxCsPlayground.Cities
             InitializeComponent();
 
             _repository = repository;
-            _asyncScheduler = Scheduler.NewThread;
+
+            _nextThreadScheduler = new NewThreadScheduler();
+            _uiScheduler = new ControlScheduler(this);
         }
 
 
@@ -64,45 +68,59 @@ namespace RxCsPlayground.Cities
 
         private void InitStreams()
         {
-            Debug.Print($"Form ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+            Debug.Print($"Štart UI, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
 
-            // stream z eventu TextChanged
+            // 1 - stream z eventu TextChanged
             var textChangedStream = Observable
                 .FromEventPattern<EventArgs>(TxtSearch, nameof(TxtSearch.TextChanged))
-                .Throttle(TimeSpan.FromSeconds(1))
+                .Throttle(TimeSpan.FromSeconds(0.5))
                 .Select(args => (args.Sender as TextBox).Text);
 
-            // stream z eventu stlačenia tlačidla Enter
+            // 2 - stream z eventu stlačenia tlačidla Enter
             var enterPressedStream = Observable
                 .FromEventPattern<KeyEventArgs>(TxtSearch, nameof(TxtSearch.KeyDown))
                 .Where(args => args.EventArgs.KeyCode == Keys.Enter)
                 .Select(args => (args.Sender as TextBox).Text);
 
-            // stream predstavujúci pokyn na vyhľadávanie textu 
-            var inputStream = textChangedStream
-                .Merge(enterPressedStream)
-                .DistinctUntilChanged();
+            var searchTermStream = textChangedStream
+                .Merge(enterPressedStream) // Merge je paralelné spojenie streamov                
+                .DistinctUntilChanged()
+                .ObserveOn(_nextThreadScheduler);
 
-            // vytvoríme stream výsledkov asynchrónneho vyhľadávania zo streamu vyhľadávaného textu
-            var searchResultStream = from searchTerm in inputStream
-                                     from result in _repository
-                                                    .GetCities(searchTerm)
-                                                    .SubscribeOn(_asyncScheduler)
-                                                    .TakeUntil(inputStream)
-                                     select result;
-
-            // sledujeme stream výsledkov a výsledky plníme do ListBoxu
-            _resultsSubscription = searchResultStream
-                .ObserveOn(this)
-                .Subscribe(result => FillCities(result),
-                           ex => LblProgressInfo.Text = $"Pri vyhľadávaní vznihka chyba {ex.Message}!",
-                           () => LblProgressInfo.Text = "Vyhľadávanie dokončené.");
+            // prihlásim sa na odber požiadaviek na vyhľadávanie
+            _searchTermSubscription = searchTermStream
+                .Subscribe(
+                    term => 
+                    {
+                        Console.WriteLine($"Vyhľadávam \"{term}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                        _resultsSubscription = _repository.GetCities(term)                            
+                            .TakeUntil(searchTermStream)
+                            .ObserveOn(_uiScheduler)
+                            .Subscribe(result => 
+                                FillCities(result), 
+                                ShowErrorInfo, 
+                                () =>
+                                {
+                                    Debug.Print($"Vyhľadávanie dokončené, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                                    ShowInfoText("Vyhľadávanie dokončené.");
+                                }
+                            );
+                    }, 
+                    ShowErrorInfo);
         }
 
 
+        private void ShowInfoText(string text) =>
+            LblProgressInfo.Text = text;
+
+
+        private void ShowErrorInfo(Exception ex) =>
+            ShowInfoText($"Pri vyhľadávaní vznikla chyba {ex.Message}!");
+        
+
         private void FillCities(CitiesStreamItem searchResult)
         {
-            Debug.Print($"FillCities ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+            Debug.Print($"Napĺňam výsledky - stránka {searchResult.Page}, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
 
             if (searchResult.Page == 0)
                 ListResults.Items.Clear();
@@ -114,7 +132,8 @@ namespace RxCsPlayground.Cities
         private void DisposeStreams()
         {
             // ukončenie sledovania streamov            
-            _resultsSubscription.Dispose();
+            _searchTermSubscription?.Dispose();
+            _resultsSubscription?.Dispose();
         }
 
 
