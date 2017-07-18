@@ -37,6 +37,12 @@ namespace RxCsPlayground.Cities
 
 
         /// <summary>
+        /// Generátor náhodných čísel pre náhodné chyby...
+        /// </summary>
+        private Random _randomizer;
+
+
+        /// <summary>
         /// Interná "akože databáza" miest a obcí :)
         /// </summary>
         private List<string> _cities;
@@ -50,6 +56,8 @@ namespace RxCsPlayground.Cities
             _cities = Resources.CitiesList
                 .Split(';')
                 .ToList();
+
+            _randomizer = new Random();
         }
 
 
@@ -65,7 +73,8 @@ namespace RxCsPlayground.Cities
         public IObservable<CitiesStreamItem> GetCities(string filter) =>
             Observable.Generate(
                 FindCitiesAndCreateNewState(filter, 0),
-                currentState => (currentState.Page < MaxPagesCount) && (currentState.Cities.Count() > 0),
+                currentState => (currentState.Page == 0) || // vždy schválne vrátim prvú stránku, aj keď je prázdna. Pri page 0 totiž čistím ListBox... :D
+                                ((currentState.Page < MaxPagesCount) && (currentState.Cities.Count() > 0)),
                 currentState => FindCitiesAndCreateNewState(currentState.Filter, currentState.Page + 1),
                 currentState => new CitiesStreamItem(currentState.Page, currentState.Cities));
 
@@ -84,8 +93,16 @@ namespace RxCsPlayground.Cities
         /// </summary>
         private CitiesStreamState FindCitiesAndCreateNewState(string filter, int page)
         {
-            System.Threading.Thread.Sleep(LoadItemsDelay);
             Debug.Print($"Repository - stránka {page}, výraz \"{filter}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+
+            // simulujeme pomalé načítavanie údajov
+            Thread.Sleep(LoadItemsDelay);
+
+            // ak chceš vidieť čo sa stane pri náhodnej chybe, toto odkomentuj
+            //if (_randomizer.Next(20) ==  0)
+            //    throw new Exception("Len tak pre srandu :)");            
+
+            // vrátime výsledok - nový state objekt
             return new CitiesStreamState(filter, page, _cities
                 .Where(GetFilterPredicate(filter))
                 .Skip(page* ItemsPerPage)

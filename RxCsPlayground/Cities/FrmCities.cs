@@ -16,7 +16,14 @@ namespace RxCsPlayground.Cities
 
         private ICitiesRepository _repository;
 
+        /// <summary>
+        /// Kontrakt odberu hľadaného výrazu
+        /// </summary>
         private IDisposable _searchTermSubscription;
+
+        /// <summary>
+        /// Kontrakt odberu výsledkov
+        /// </summary>
         private IDisposable _resultsSubscription;
 
         /// <summary>
@@ -50,6 +57,7 @@ namespace RxCsPlayground.Cities
 
         #region Hlavné eventy
 
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -67,12 +75,16 @@ namespace RxCsPlayground.Cities
             DisposeStreams();
         }
 
+
         #endregion
 
 
         #region Vyhľadávanie
 
 
+        /// <summary>
+        /// Inicializácia streamov pri Load evente formulára
+        /// </summary>
         private void InitStreams()
         {
             Debug.Print($"Štart UI, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
@@ -90,8 +102,7 @@ namespace RxCsPlayground.Cities
 
             // spojenie streamov mi dá stream požiadaviek pre hľadanie - emituje vyhľadávaný reťazec
             var searchTermStream = enterPressedStream
-                .Merge(buttonClickedStream)
-                .DistinctUntilChanged();
+                .Merge(buttonClickedStream);
 
             // stream udalostí o zatváraní okna - emitne prázdny reťazec ak sa okno zatvára
             var formClosingStream = Observable
@@ -110,35 +121,50 @@ namespace RxCsPlayground.Cities
                 // emitované hodnoty budem spracúvať v druhom vlákne
                 .ObserveOn(_nextThreadScheduler)
                 // samotný odber hodnôt
-                .Subscribe(searchTerm => 
-                {
-                    Console.WriteLine($"Vyhľadávam \"{searchTerm}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-                    // prihlasujem sa na odber stránkovaných výsledkov vyhľadávania
-                    _resultsSubscription = _repository.GetCities(searchTerm)       
-                        // výsledky odoberám až pokiaľ nevznikne dôvod na ukončenie - buď sa zmenil vyhľadávaný výraz alebo sa okno zatvára
-                        .TakeUntil(stopSearchingStream)
-                        // výsledky už chcem spracúvať v UI vlákne
-                        .ObserveOn(_uiScheduler)
-                        // samotný odber hodnôt
-                        .Subscribe(result => FillCities(result), ShowErrorInfo, 
-                            () =>
-                            {
-                                Debug.Print($"Vyhľadávanie dokončené, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-                                ShowInfoText("Vyhľadávanie dokončené.");
-                            });
-                }, 
-                ShowErrorInfo);
+                .Subscribe(searchTerm => OnNextSearchTerm(searchTerm, stopSearchingStream), ShowErrorInfo);
         }
 
 
+        /// <summary>
+        /// Hľadaný výraz sa zmenil - vyvolám hľadanie a prihlásim sa na odber výsledkov hľadania
+        /// </summary>        
+        private void OnNextSearchTerm(string searchTerm, IObservable<string> stopSearchingStream)
+        {
+            Console.WriteLine($"Vyhľadávam \"{searchTerm}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                        
+            // prihlasujem sa na odber stránkovaných výsledkov vyhľadávania
+            _resultsSubscription = _repository.GetCities(searchTerm)
+                // výsledky odoberám až pokiaľ nevznikne dôvod na ukončenie - buď sa zmenil vyhľadávaný výraz alebo sa okno zatvára
+                .TakeUntil(stopSearchingStream)
+                // výsledky už chcem spracúvať v UI vlákne
+                .ObserveOn(_uiScheduler)
+                // samotný odber hodnôt
+                .Subscribe(result => FillCities(result), ShowErrorInfo,
+                    () =>
+                    {
+                        Debug.Print($"Vyhľadávanie dokončené, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
+                        ShowInfoText("Vyhľadávanie dokončené.");
+                    });
+        }
+
+
+        /// <summary>
+        /// Zobrazenie info o prebiehajúcej operácii
+        /// </summary>        
         private void ShowInfoText(string text) =>
             LblProgressInfo.Text = text;
 
 
+        /// <summary>
+        /// Zobrazenie výnimky v info o prebiehajúcej operácii
+        /// </summary>        
         private void ShowErrorInfo(Exception ex) =>
             ShowInfoText($"Pri vyhľadávaní vznikla chyba {ex.Message}!");
         
 
+        /// <summary>
+        /// Naplnenie výsledkov do ListBoxu
+        /// </summary>        
         private void FillCities(CitiesStreamItem searchResult)
         {
             Debug.Print($"Napĺňam výsledky - stránka {searchResult.Page}, ThreadId: {Thread.CurrentThread.ManagedThreadId}");
@@ -151,10 +177,13 @@ namespace RxCsPlayground.Cities
         }
 
 
+        /// <summary>
+        /// Dispose odberov zo streamov
+        /// </summary>
         private void DisposeStreams()
         {
-            // ukončenie sledovania streamov            
-            _searchTermSubscription?.Dispose();
+            // ukončenie sledovania streamov         
+            _searchTermSubscription?.Dispose();            
             _resultsSubscription?.Dispose();
         }
 
