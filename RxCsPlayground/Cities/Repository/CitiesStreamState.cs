@@ -9,10 +9,7 @@ namespace RxCsPlayground.Cities
     internal class CitiesStreamState
     {        
 
-        /// <summary>
-        /// Aktuálne používaný filter
-        /// </summary>
-        public string Filter { get; }
+        public CitiesStreamFilterSettings Filter { get; }
 
 
         /// <summary>
@@ -30,9 +27,9 @@ namespace RxCsPlayground.Cities
         #region Konštruktor
 
 
-        public CitiesStreamState(string filter, int page, IEnumerable<string> cities)
+        public CitiesStreamState(CitiesStreamFilterSettings filter, int page, IEnumerable<string> cities)
         {
-            Filter = filter;
+            Filter = filter;            
             Page = page;
             Cities = cities;
         } 

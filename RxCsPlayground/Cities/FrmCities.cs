@@ -14,8 +14,21 @@ namespace RxCsPlayground.Cities
     public partial class FrmCities : Form
     {
 
-        private ICitiesRepository _repository;
+        /// <summary>
+        /// Počet položiek, ktoré chceme v jednej "stránke" výsledkov vyhľadávania
+        /// </summary>
+        public const int ItemsPerPage = 5;
+        
+        /// <summary>
+        /// Maximálny počet stránok, ktoré si vyžiadame
+        /// </summary>
+        public const int MaxPagesCount = 20;
 
+        /// <summary>
+        /// Repository miest a obcí
+        /// </summary>
+        private ICitiesRepository _repository;
+        
         /// <summary>
         /// Kontrakt odberu hľadaného výrazu
         /// </summary>
@@ -133,7 +146,7 @@ namespace RxCsPlayground.Cities
             Console.WriteLine($"Vyhľadávam \"{searchTerm}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
                         
             // prihlasujem sa na odber stránkovaných výsledkov vyhľadávania
-            _resultsSubscription = _repository.GetCities(searchTerm)
+            _resultsSubscription = _repository.GetCities(searchTerm, ItemsPerPage, MaxPagesCount)
                 // výsledky odoberám až pokiaľ nevznikne dôvod na ukončenie - buď sa zmenil vyhľadávaný výraz alebo sa okno zatvára
                 .TakeUntil(stopSearchingStream)
                 // výsledky už chcem spracúvať v UI vlákne

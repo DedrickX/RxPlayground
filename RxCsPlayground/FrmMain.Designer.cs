@@ -34,7 +34,7 @@
             // 
             // BtnTest
             // 
-            this.BtnTest.Location = new System.Drawing.Point(12, 51);
+            this.BtnTest.Location = new System.Drawing.Point(12, 160);
             this.BtnTest.Name = "BtnTest";
             this.BtnTest.Size = new System.Drawing.Size(192, 33);
             this.BtnTest.TabIndex = 1;
@@ -44,11 +44,11 @@
             // 
             // BtnCities
             // 
-            this.BtnCities.Location = new System.Drawing.Point(12, 12);
+            this.BtnCities.Location = new System.Drawing.Point(12, 58);
             this.BtnCities.Name = "BtnCities";
-            this.BtnCities.Size = new System.Drawing.Size(192, 33);
+            this.BtnCities.Size = new System.Drawing.Size(407, 33);
             this.BtnCities.TabIndex = 2;
-            this.BtnCities.Text = "Zoznam miest a obcí";
+            this.BtnCities.Text = "Zoznam miest a obcí - stránkovaný zdroj dát";
             this.BtnCities.UseVisualStyleBackColor = true;
             this.BtnCities.Click += new System.EventHandler(this.BtnCities_Click);
             // 

@@ -81,7 +81,14 @@
     </Compile>
     <Compile Include="Cities\Repository\CitiesStreamItem.cs" />
     <Compile Include="Cities\Repository\CitiesStreamState.cs" />
+    <Compile Include="Cities\Repository\CitiesStreamFilterSettings.cs" />
     <Compile Include="Cities\Repository\ICitiesRepository.cs" />
+    <Compile Include="Input\FrmInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input\FrmInput.Designer.cs">
+      <DependentUpon>FrmInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Test\FrmTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +105,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Cities\FrmCities.resx">
       <DependentUpon>FrmCities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Input\FrmInput.resx">
+      <DependentUpon>FrmInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Test\FrmTest.resx">
       <DependentUpon>FrmTest.cs</DependentUpon>

@@ -16,19 +16,7 @@ namespace RxCsPlayground.Cities
     /// Repository poskytujúce zoznam miest a obcí
     /// </summary>
     public class CitiesRepository : ICitiesRepository
-    {                
-
-        /// <summary>
-        /// Počet položiek, ktoré prídu v jednej "stránke" výsledkov vyhľadávania
-        /// </summary>
-        public const int ItemsPerPage = 5;
-
-
-        /// <summary>
-        /// Maximálny počet stránok, ktoré vrátime
-        /// </summary>
-        public const int MaxPagesCount = 20;
-
+    {                  
 
         /// <summary>
         /// Umelé oneskorenie pri načítaní stránky údajov - akože to ide z databázy alebo webového servisu
@@ -70,11 +58,11 @@ namespace RxCsPlayground.Cities
         /// <remarks>
         /// Využijeme korekurziu - funkcii Observable.Generate podhodíme pár ďalších funkcií na základe ktorých bude generovať stream.
         /// </remarks>
-        public IObservable<CitiesStreamItem> GetCities(string filter) =>
+        public IObservable<CitiesStreamItem> GetCities(string searchTerm, int itemsPerPage, int maxPagesCount) =>
             Observable.Generate(
-                FindCitiesAndCreateNewState(filter, 0),
+                FindCitiesAndCreateNewState(new CitiesStreamFilterSettings(searchTerm, itemsPerPage, maxPagesCount), 0),
                 currentState => (currentState.Page == 0) || // vždy schválne vrátim prvú stránku, aj keď je prázdna. Pri page 0 totiž čistím ListBox... :D
-                                ((currentState.Page < MaxPagesCount) && (currentState.Cities.Count() > 0)),
+                                ((currentState.Page < currentState.Filter.MaxPagesCount) && (currentState.Cities.Count() > 0)),
                 currentState => FindCitiesAndCreateNewState(currentState.Filter, currentState.Page + 1),
                 currentState => new CitiesStreamItem(currentState.Page, currentState.Cities));
 
@@ -86,12 +74,12 @@ namespace RxCsPlayground.Cities
             x => string.IsNullOrWhiteSpace(filter)
                 ? true
                 : x.ToLower().Contains(filter.ToLower());
-
+                
 
         /// <summary>
         /// Funkcia vyhľadá mestá a obce podľa filtra patriace danej stránke a vráti ich vo forme nového interného stavu
         /// </summary>
-        private CitiesStreamState FindCitiesAndCreateNewState(string filter, int page)
+        private CitiesStreamState FindCitiesAndCreateNewState(CitiesStreamFilterSettings filter, int page)
         {
             Debug.Print($"Repository - stránka {page}, výraz \"{filter}\", ThreadId: {Thread.CurrentThread.ManagedThreadId}");
 
@@ -104,9 +92,9 @@ namespace RxCsPlayground.Cities
 
             // vrátime výsledok - nový state objekt
             return new CitiesStreamState(filter, page, _cities
-                .Where(GetFilterPredicate(filter))
-                .Skip(page* ItemsPerPage)
-                .Take(ItemsPerPage));
+                .Where(GetFilterPredicate(filter.SearchTerm))
+                .Skip(page * filter.ItemsPerPage)
+                .Take(filter.ItemsPerPage));
         }
 
     }

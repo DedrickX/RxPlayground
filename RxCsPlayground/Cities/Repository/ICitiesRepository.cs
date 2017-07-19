@@ -17,7 +17,9 @@ namespace RxCsPlayground.Cities
         /// <summary>
         /// Funkcia vráti zoznam miest a obcí obsahujúcich v názve daný reťazec. Výsledok je vo forme streamu kolekcií - akože stránok.
         /// </summary>
-        IObservable<CitiesStreamItem> GetCities(string filter);
+        /// <param name="itemsPerPage">Počet položiek vrátených v jednej stránke</param>
+        /// <param name="maxPagesCount">Maximálny počet vrátených stránok s údajmi</param>
+        IObservable<CitiesStreamItem> GetCities(string filter, int itemsPerPage, int maxPagesCount);
         
     }
     
