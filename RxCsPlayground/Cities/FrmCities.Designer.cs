@@ -55,7 +55,7 @@
             this.ListResults.Margin = new System.Windows.Forms.Padding(2);
             this.ListResults.Name = "ListResults";
             this.ListResults.Size = new System.Drawing.Size(361, 350);
-            this.ListResults.TabIndex = 4;
+            this.ListResults.TabIndex = 3;
             // 
             // TxtSearch
             // 
@@ -65,17 +65,17 @@
             this.TxtSearch.Location = new System.Drawing.Point(11, 11);
             this.TxtSearch.Margin = new System.Windows.Forms.Padding(2);
             this.TxtSearch.Name = "TxtSearch";
-            this.TxtSearch.Size = new System.Drawing.Size(280, 20);
-            this.TxtSearch.TabIndex = 1;
+            this.TxtSearch.Size = new System.Drawing.Size(239, 20);
+            this.TxtSearch.TabIndex = 0;
             // 
             // BtnSearch
             // 
             this.BtnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnSearch.Location = new System.Drawing.Point(296, 10);
+            this.BtnSearch.Location = new System.Drawing.Point(255, 10);
             this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(75, 23);
-            this.BtnSearch.TabIndex = 5;
-            this.BtnSearch.Text = "Hľadaj";
+            this.BtnSearch.Size = new System.Drawing.Size(116, 23);
+            this.BtnSearch.TabIndex = 1;
+            this.BtnSearch.Text = "Hľadaj mesto";
             this.BtnSearch.UseVisualStyleBackColor = true;
             // 
             // FrmCities

@@ -31,7 +31,7 @@
             this.TxtInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtOutput = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnClearOutput = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TxtInput
@@ -69,23 +69,23 @@
             this.TxtOutput.TabIndex = 2;
             this.TxtOutput.Text = "";
             // 
-            // button1
+            // BtnClearOutput
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(453, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Vyčisti";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BtnClearOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnClearOutput.Location = new System.Drawing.Point(453, 38);
+            this.BtnClearOutput.Name = "BtnClearOutput";
+            this.BtnClearOutput.Size = new System.Drawing.Size(75, 23);
+            this.BtnClearOutput.TabIndex = 3;
+            this.BtnClearOutput.Text = "Vyčisti";
+            this.BtnClearOutput.UseVisualStyleBackColor = true;
+            this.BtnClearOutput.Click += new System.EventHandler(this.BtnClearOutput_Click);
             // 
             // FrmInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(540, 417);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnClearOutput);
             this.Controls.Add(this.TxtOutput);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtInput);
@@ -101,6 +101,6 @@
         private System.Windows.Forms.TextBox TxtInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox TxtOutput;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BtnClearOutput;
     }
 }

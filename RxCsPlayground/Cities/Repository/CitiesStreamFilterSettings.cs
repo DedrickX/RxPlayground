@@ -31,12 +31,18 @@ namespace RxCsPlayground.Cities
         public int MaxPagesCount { get; }
 
 
+        #region Konštruktor
+
+
         public CitiesStreamFilterSettings(string searchTerm, int itemsPerPage, int maxPagesCount)
         {
             SearchTerm = searchTerm;
             ItemsPerPage = itemsPerPage;
             MaxPagesCount = maxPagesCount;
-        }
+        } 
+
+
+        #endregion
 
     }
 

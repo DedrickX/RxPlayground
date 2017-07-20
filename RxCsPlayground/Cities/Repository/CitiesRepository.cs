@@ -61,9 +61,10 @@ namespace RxCsPlayground.Cities
         public IObservable<CitiesStreamItem> GetCities(string searchTerm, int itemsPerPage, int maxPagesCount) =>
             Observable.Generate(
                 FindCitiesAndCreateNewState(new CitiesStreamFilterSettings(searchTerm, itemsPerPage, maxPagesCount), 0),
-                currentState => (currentState.Page == 0) || // vždy schválne vrátim prvú stránku, aj keď je prázdna. Pri page 0 totiž čistím ListBox... :D
-                                ((currentState.Page < currentState.Filter.MaxPagesCount) && (currentState.Cities.Count() > 0)),
-                currentState => FindCitiesAndCreateNewState(currentState.Filter, currentState.Page + 1),
+                // vždy schválne vrátim minimálne jednu stránku, aj keď je prázdna. Pri výsledku s page = 0 totiž čistím ListBox... :)
+                currentState => (currentState.Page == 0) || 
+                                ((currentState.Page < currentState.FilterSettings.MaxPagesCount) && (currentState.Cities.Count() > 0)),
+                currentState => FindCitiesAndCreateNewState(currentState.FilterSettings, currentState.Page + 1),
                 currentState => new CitiesStreamItem(currentState.Page, currentState.Cities));
 
 
