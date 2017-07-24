@@ -43,7 +43,7 @@
             this.TxtInput.Location = new System.Drawing.Point(75, 12);
             this.TxtInput.Name = "TxtInput";
             this.TxtInput.Size = new System.Drawing.Size(453, 20);
-            this.TxtInput.TabIndex = 0;
+            this.TxtInput.TabIndex = 0;            
             // 
             // label1
             // 
