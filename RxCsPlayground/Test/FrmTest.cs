@@ -36,7 +36,7 @@ namespace RxCsPlayground
 
             _subscription = numbersStream
                     .ObserveOn(this)
-                    .Subscribe(x => PrintText($"#{x}"),
+                    .Subscribe(x => Debug.Print(x.ToString() + System.Environment.NewLine),
                                err => PrintText("NumbersStream Error!"),
                                () => PrintText("NumbersStream Done"));
 

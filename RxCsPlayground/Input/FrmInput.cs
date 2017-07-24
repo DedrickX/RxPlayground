@@ -87,13 +87,9 @@ namespace RxCsPlayground.Input
             var enterPressedStream = Observable
                 .FromEventPattern<KeyEventArgs>(TxtInput, nameof(TxtInput.KeyDown))
                 .Where(args => args.EventArgs.KeyCode == Keys.Enter)
-<<<<<<< HEAD
                 // aby stlačenie Enteru nevydávalo otravný "Ding" zvuk...
                 .Do(args => args.EventArgs.Handled = args.EventArgs.SuppressKeyPress = true)
-                .Select(args => TxtInput.Text);
-=======
                 .Select(args => (args.Sender as TextBox).Text);
->>>>>>> origin/master
             
             var inputStream = textChangedStreamThrottled
                 .Merge(textChangedStreamKros)
@@ -126,8 +122,7 @@ namespace RxCsPlayground.Input
 
             return Observable.Timer(TimeSpan.FromMilliseconds(delay));
         }
-
-
+        
 
         /// <summary>
         /// Dispose odberov zo streamov
@@ -137,8 +132,7 @@ namespace RxCsPlayground.Input
             // ukončenie sledovania streamov
             _inputSubscription?.Dispose();         
         }
-
-
+        
 
         #region Tools
 

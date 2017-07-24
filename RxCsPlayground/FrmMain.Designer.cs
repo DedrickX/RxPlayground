@@ -35,9 +35,10 @@
             // 
             // BtnTest
             // 
-            this.BtnTest.Location = new System.Drawing.Point(12, 160);
+            this.BtnTest.Location = new System.Drawing.Point(18, 246);
+            this.BtnTest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnTest.Name = "BtnTest";
-            this.BtnTest.Size = new System.Drawing.Size(192, 33);
+            this.BtnTest.Size = new System.Drawing.Size(288, 51);
             this.BtnTest.TabIndex = 1;
             this.BtnTest.Text = "Test...";
             this.BtnTest.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@
             // 
             // BtnCities
             // 
-            this.BtnCities.Location = new System.Drawing.Point(12, 51);
+            this.BtnCities.Location = new System.Drawing.Point(18, 78);
+            this.BtnCities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnCities.Name = "BtnCities";
-            this.BtnCities.Size = new System.Drawing.Size(407, 33);
+            this.BtnCities.Size = new System.Drawing.Size(610, 51);
             this.BtnCities.TabIndex = 2;
             this.BtnCities.Text = "Zoznam miest a obcí - stránkovaný zdroj dát";
             this.BtnCities.UseVisualStyleBackColor = true;
@@ -55,22 +57,24 @@
             // 
             // BtnInput
             // 
-            this.BtnInput.Location = new System.Drawing.Point(12, 12);
+            this.BtnInput.Location = new System.Drawing.Point(18, 18);
+            this.BtnInput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnInput.Name = "BtnInput";
-            this.BtnInput.Size = new System.Drawing.Size(407, 33);
+            this.BtnInput.Size = new System.Drawing.Size(610, 51);
             this.BtnInput.TabIndex = 3;
-            this.BtnInput.Text = "Písanie do textBoxu";
+            this.BtnInput.Text = "Akože vyhľadávací TextBox";
             this.BtnInput.UseVisualStyleBackColor = true;
             this.BtnInput.Click += new System.EventHandler(this.BtnInput_Click);
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 345);
+            this.ClientSize = new System.Drawing.Size(756, 531);
             this.Controls.Add(this.BtnInput);
             this.Controls.Add(this.BtnCities);
             this.Controls.Add(this.BtnTest);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
