@@ -72,7 +72,7 @@ namespace RxCsPlayground.Input
             // stream emitujúci hodnoty pri zmene textu - emituje text z textBoxu
             var textChangedStream = Observable
                 .FromEventPattern<EventArgs>(TxtInput, nameof(TxtInput.TextChanged))
-                .Select(args => TxtInput.Text);
+                .Select(args => (args.Sender as TextBox).Text);
 
             // stream emitujúci hodnoty pri zmene textu - oneskorená hodnota
             var textChangedStreamThrottled = textChangedStream
@@ -87,7 +87,7 @@ namespace RxCsPlayground.Input
             var enterPressedStream = Observable
                 .FromEventPattern<KeyEventArgs>(TxtInput, nameof(TxtInput.KeyDown))
                 .Where(args => args.EventArgs.KeyCode == Keys.Enter)
-                .Select(args => TxtInput.Text);
+                .Select(args => (args.Sender as TextBox).Text);
             
             var inputStream = textChangedStreamThrottled
                 .Merge(textChangedStreamKros)
@@ -169,11 +169,11 @@ namespace RxCsPlayground.Input
         private void BtnClearOutput_Click(object sender, EventArgs e)
         {
             TxtOutput.Clear();
-        } 
+        }
+
 
 
         #endregion
-
 
     }
 }
