@@ -19,9 +19,14 @@ namespace RxCsPlayground.Cities
     {                  
 
         /// <summary>
-        /// Umelé oneskorenie pri načítaní stránky údajov - akože to ide z databázy alebo webového servisu
+        /// Umelé oneskorenie pri načítaní stránky údajov - akože to ide z databázy alebo webového servisu        
         /// </summary>
-        public const int LoadItemsDelay = 200;
+        /// <remarks>
+        /// Kľudne tu môže byť 0. Ale ak by sme mali neskutočne rýchly a veľký zdroj dát z ktorého by sme chceli zobraziť vždy všetko, 
+        /// mohol by sa UI stať neresponzívny počas napĺňania stránok. Riešením by bolo napríklad vynútenie vykonania čakajúcich 
+        /// eventov pred naplnením každej ďalšej stránky v UI vlákne... (staré dobré DoEvents)
+        /// </remarks>
+        public const int LoadItemsDelay = 300;
 
 
         /// <summary>
@@ -44,7 +49,7 @@ namespace RxCsPlayground.Cities
             _cities = Resources.CitiesList
                 .Split(';')
                 .ToList();
-
+                        
             _randomizer = new Random();
         }
 
@@ -87,9 +92,11 @@ namespace RxCsPlayground.Cities
             // simulujeme pomalé načítavanie údajov
             Thread.Sleep(LoadItemsDelay);
 
+            // ****************************
             // ak chceš vidieť čo sa stane pri náhodnej chybe, toto odkomentuj
             //if (_randomizer.Next(20) ==  0)
-            //    throw new Exception("Len tak pre srandu :)");            
+            //    throw new Exception("Len tak pre srandu :)");
+            // ****************************
 
             // vrátime výsledok - nový state objekt
             return new CitiesStreamState(filter, page, _cities

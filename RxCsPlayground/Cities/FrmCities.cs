@@ -106,6 +106,8 @@ namespace RxCsPlayground.Cities
             var enterPressedStream = Observable
                 .FromEventPattern<KeyEventArgs>(TxtSearch, nameof(TxtSearch.KeyDown))
                 .Where(args => args.EventArgs.KeyCode == Keys.Enter)
+                // aby stlačenie Enteru nevydávalo otravný "Ding" zvuk...
+                .Do(args => args.EventArgs.Handled = args.EventArgs.SuppressKeyPress = true)
                 .Select(args => (args.Sender as TextBox).Text);
 
             // stream emitujúci hodnoty po kliku na tlačidlo Hľadaj - emituje vyhľadávaný reťazec

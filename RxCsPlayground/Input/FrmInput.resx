@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label2.Text" xml:space="preserve">
+    <value>TextBox dole je akože vyhľadávací. 
+- Pri texte dlhšom ako 3 písmená sleduje, ako rýchlo doň píšeš.
+- Čím dlhší text, tým kratšia je sledovaná doba nečinnosti, po ktorej vyvolá akciu.
+- Ak je kdekoľvek v napísanom texte reťazec "kros", akcia je vyvolaná okamžite.
+- Akcia nebude vyvolaná 2x pre ten istý text
+</value>
+  </data>
 </root>
