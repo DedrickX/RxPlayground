@@ -76,8 +76,8 @@ namespace RxCsPlayground.Input
 
             // stream emitujúci hodnoty pri zmene textu dlhšieho ako 3 znaky s oneskorením
             var textChangedStreamThrottled = textChangedStream
-                .Where(x => x.Length > 3)
-                .Throttle(x => ThrottleDurationGenerator(x.Length));
+                .Throttle(x => ThrottleDurationGenerator(x.Length))
+                .Where(x => x.Length > 3);
 
             // stream emitujúci text v okamihu ako je v texte napísané KROS
             var textChangedStreamKros = textChangedStream
